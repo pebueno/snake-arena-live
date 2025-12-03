@@ -28,7 +28,7 @@ const Index = () => {
     }
   };
 
-  const { gameState, restart, handleDirectionChange, handlePause } = useSnakeGame({
+  const { gameState, hasStarted, restart, handleDirectionChange, handlePause } = useSnakeGame({
     mode: selectedMode,
     speed: 120,
     onGameOver: handleGameOver,
@@ -65,7 +65,7 @@ const Index = () => {
           <GameBoard gameState={gameState} cellSize={24} />
           
           {/* Start overlay for fresh game */}
-          {!gameState.isGameOver && gameState.score === 0 && gameState.snake.length === 3 && (
+          {!hasStarted && !gameState.isGameOver && (
             <div className="absolute inset-0 bg-background/60 flex items-center justify-center backdrop-blur-sm rounded-lg">
               <div className="text-center">
                 <p className="font-pixel text-lg text-neon-cyan mb-3">READY?</p>
