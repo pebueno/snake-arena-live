@@ -20,16 +20,29 @@ interface UseSnakeGameOptions {
 export function useSnakeGame(options: UseSnakeGameOptions = {}) {
   const { mode = 'walls', speed = 150, aiControlled = false, onGameOver } = options;
   
-  const [gameState, setGameState] = useState<GameState>(() => createInitialState(mode));
+  const [gameState, setGameState] = useState<GameState>(() => ({
+    ...createInitialState(mode),
+    isPaused: !aiControlled, // Start paused for player-controlled games
+  }));
+  const [hasStarted, setHasStarted] = useState(aiControlled);
   const gameLoopRef = useRef<number | null>(null);
   const lastMoveRef = useRef<number>(0);
 
   const restart = useCallback((newMode?: GameMode) => {
-    setGameState(createInitialState(newMode ?? mode));
-  }, [mode]);
+    setGameState({
+      ...createInitialState(newMode ?? mode),
+      isPaused: !aiControlled,
+    });
+    setHasStarted(aiControlled);
+  }, [mode, aiControlled]);
 
   const handleDirectionChange = useCallback((direction: Direction) => {
-    setGameState(state => changeDirection(state, direction));
+    setHasStarted(true);
+    setGameState(state => {
+      // If game hasn't started yet, unpause it on first direction input
+      const unpausedState = state.isPaused && !state.isGameOver ? { ...state, isPaused: false } : state;
+      return changeDirection(unpausedState, direction);
+    });
   }, []);
 
   const handlePause = useCallback(() => {
@@ -116,6 +129,7 @@ export function useSnakeGame(options: UseSnakeGameOptions = {}) {
 
   return {
     gameState,
+    hasStarted,
     restart,
     handleDirectionChange,
     handlePause,
