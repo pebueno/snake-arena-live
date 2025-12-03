@@ -23,82 +23,76 @@ export function GameControls({
   onDirectionChange,
 }: GameControlsProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       {/* Score Display */}
       <div className="text-center">
-        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-1">Score</p>
-        <p className="font-pixel text-3xl text-primary neon-text">{score}</p>
+        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2">Score</p>
+        <p className="font-pixel text-4xl text-primary neon-text">{score}</p>
       </div>
 
       {/* Mode Display */}
       <div className="text-center">
-        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-1">Mode</p>
-        <p className="font-mono text-neon-cyan">
+        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2">Mode</p>
+        <p className="text-neon-cyan text-lg">
           {mode === 'walls' ? '🧱 Walls' : '🌀 Pass-Through'}
         </p>
       </div>
 
       {/* Control Buttons */}
-      <div className="flex gap-2 justify-center">
+      <div className="flex gap-3 justify-center">
         <Button
           variant="neon"
-          size="icon"
+          size="lg"
           onClick={onPause}
           disabled={isGameOver}
         >
-          {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+          {isPaused ? <Play className="h-5 w-5" /> : <Pause className="h-5 w-5" />}
         </Button>
         <Button
           variant="neon-pink"
-          size="icon"
+          size="lg"
           onClick={onRestart}
         >
-          <RotateCcw className="h-4 w-4" />
+          <RotateCcw className="h-5 w-5" />
         </Button>
       </div>
 
       {/* Mobile D-Pad */}
-      <div className="flex flex-col items-center gap-1 md:hidden">
+      <div className="flex flex-col items-center gap-2 md:hidden">
         <Button
           variant="outline"
-          size="icon"
+          size="lg"
           onClick={() => onDirectionChange('UP')}
           className="touch-manipulation"
         >
-          <ArrowUp className="h-4 w-4" />
+          <ArrowUp className="h-5 w-5" />
         </Button>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Button
             variant="outline"
-            size="icon"
+            size="lg"
             onClick={() => onDirectionChange('LEFT')}
             className="touch-manipulation"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <Button
             variant="outline"
-            size="icon"
+            size="lg"
             onClick={() => onDirectionChange('DOWN')}
             className="touch-manipulation"
           >
-            <ArrowDown className="h-4 w-4" />
+            <ArrowDown className="h-5 w-5" />
           </Button>
           <Button
             variant="outline"
-            size="icon"
+            size="lg"
             onClick={() => onDirectionChange('RIGHT')}
             className="touch-manipulation"
           >
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-5 w-5" />
           </Button>
         </div>
-      </div>
-
-      {/* Keyboard Instructions */}
-      <div className="hidden md:block text-center text-xs text-muted-foreground">
-        <p>Arrow keys or WASD to move</p>
-        <p>Space to pause</p>
       </div>
     </div>
   );

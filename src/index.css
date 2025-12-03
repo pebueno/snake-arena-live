@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500;700&display=swap');
 
 @layer base {
   :root {
@@ -64,8 +64,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-mono;
-    font-family: 'JetBrains Mono', monospace;
+    @apply bg-background text-foreground;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .panel-block {
+    @apply bg-muted/50 backdrop-blur-sm rounded-lg border border-border p-4;
   }
 
   .font-pixel {
