@@ -23,7 +23,7 @@ export function GameBoard({ gameState, cellSize = 20 }: GameBoardProps) {
       {snake.map((segment, index) => (
         <div
           key={index}
-          className={`absolute snake-segment transition-all duration-75 ${index === 0 ? 'z-10' : ''}`}
+          className={`absolute snake-segment ${index === 0 ? 'z-10' : ''}`}
           style={{
             left: segment.x * cellSize + 1,
             top: segment.y * cellSize + 1,
@@ -34,7 +34,7 @@ export function GameBoard({ gameState, cellSize = 20 }: GameBoardProps) {
         >
           {index === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-primary-foreground rounded-full" />
+              <div className="w-2 h-2 bg-primary-foreground rounded-full" />
             </div>
           )}
         </div>

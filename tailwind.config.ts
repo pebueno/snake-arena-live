@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         pixel: ['"Press Start 2P"', 'cursive'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['"Roboto"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
