@@ -60,6 +60,15 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Testing
+ 
+To run the tests, use the following commands:
+ 
+- `npm test`: Run tests in watch mode
+- `npm run test:run`: Run tests once
+- `npm run test:ui`: Run tests with UI
+- `npm run coverage`: Run tests with coverage report
+ 
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/c68f05ad-3db5-4fe3-88ae-76337c1a6c87) and click on Share -> Publish.

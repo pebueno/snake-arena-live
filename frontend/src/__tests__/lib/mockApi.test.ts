@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { authApi, leaderboardApi, playersApi } from './mockApi';
+import { authApi, leaderboardApi, playersApi } from '../../lib/mockApi';
 
 describe('authApi', () => {
   beforeEach(() => {

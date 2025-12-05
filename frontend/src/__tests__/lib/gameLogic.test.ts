@@ -13,7 +13,7 @@ import {
   INITIAL_SNAKE_LENGTH,
   GameState,
   Position,
-} from './gameLogic';
+} from '../../lib/gameLogic';
 
 describe('createInitialState', () => {
   it('creates state with correct initial snake length', () => {
