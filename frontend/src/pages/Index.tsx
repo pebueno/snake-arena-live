@@ -4,7 +4,7 @@ import { GameControls } from '@/components/GameControls';
 import { ModeSelector } from '@/components/ModeSelector';
 import { useSnakeGame } from '@/hooks/useSnakeGame';
 import { useAuth } from '@/contexts/AuthContext';
-import { leaderboardApi } from '@/lib/mockApi';
+import { leaderboardApi } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import { GameMode } from '@/lib/gameLogic';
 import { Button } from '@/components/ui/button';

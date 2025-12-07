@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { leaderboardApi, LeaderboardEntry } from '@/lib/mockApi';
+import { leaderboardApi, LeaderboardEntry } from '@/lib/api';
 import { GameMode } from '@/lib/gameLogic';
 import { Trophy, Medal, Award, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { GameBoard } from '@/components/GameBoard';
 import { useSnakeGame } from '@/hooks/useSnakeGame';
-import { playersApi, ActivePlayer } from '@/lib/mockApi';
+import { playersApi, ActivePlayer } from '@/lib/api';
 import { Eye, Users, Clock, ArrowLeft } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
