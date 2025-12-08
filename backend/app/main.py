@@ -2,10 +2,20 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import auth, leaderboard, players
 
+from contextlib import asynccontextmanager
+from .database import init_db
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize DB (create tables)
+    await init_db()
+    yield
+
 app = FastAPI(
     title="Snake Arena API",
     version="1.0.0",
-    description="API for the Snake Arena game backend."
+    description="API for the Snake Arena game backend.",
+    lifespan=lifespan
 )
 
 # Configure CORS
