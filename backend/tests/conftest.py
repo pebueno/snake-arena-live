@@ -7,7 +7,7 @@ from app.main import app
 from app.database import get_db
 from app.models import Base, User, GameMode, LeaderboardEntry
 from app.schemas import UserCreate
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 # Use in-memory SQLite for tests
@@ -39,7 +39,7 @@ async def seeded_db(db_session):
         username="SnakeMaster",
         email="snake@example.com",
         password_hash="password", # In real app, hash this
-        created_at=datetime.utcnow()
+        created_at=datetime.now(timezone.utc)
     )
     db_session.add(user)
     
@@ -50,7 +50,7 @@ async def seeded_db(db_session):
         username=user.username,
         score=2500,
         mode=GameMode.WALLS,
-        played_at=datetime.utcnow()
+        played_at=datetime.now(timezone.utc)
     )
     db_session.add(entry)
     

@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete, desc
+from sqlalchemy import select, update, delete, desc, func
 from sqlalchemy.exc import IntegrityError
 from . import models, schemas
 from datetime import datetime
@@ -86,9 +86,12 @@ async def submit_score(db: AsyncSession, user_id: str, username: str, score: int
     # Alternatively, fetch all and calculate in python like before, but SQL is better.
     
     # We want rank within the specific mode
-    subquery = select(models.LeaderboardEntry).where(models.LeaderboardEntry.mode == mode, models.LeaderboardEntry.score > score)
-    result = await db.execute(select(subquery.selected_columns))
-    higher_scores_count = len(result.all())
+    query = select(func.count()).select_from(models.LeaderboardEntry).where(
+        models.LeaderboardEntry.mode == mode, 
+        models.LeaderboardEntry.score > score
+    )
+    result = await db.execute(query)
+    higher_scores_count = result.scalar()
     
     return higher_scores_count + 1
 

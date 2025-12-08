@@ -1,7 +1,7 @@
 import asyncio
 import uuid
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from app.database import AsyncSessionLocal, init_db, engine
 from app.models import User, LeaderboardEntry, ActivePlayer, GameMode
 from sqlalchemy import select
@@ -33,7 +33,7 @@ async def seed_data():
                 username=username,
                 email=email,
                 password_hash=password, # In real app, hash this!
-                created_at=datetime.utcnow()
+                created_at=datetime.now(timezone.utc)
             )
             session.add(user)
             users[username] = user
@@ -50,7 +50,7 @@ async def seed_data():
                 username=user.username,
                 score=random.randint(500, 3000),
                 mode=GameMode.WALLS,
-                played_at=datetime.utcnow()
+                played_at=datetime.now(timezone.utc)
             ))
             
             # Pass-through mode
@@ -60,7 +60,7 @@ async def seed_data():
                 username=user.username,
                 score=random.randint(500, 3000),
                 mode=GameMode.PASS_THROUGH,
-                played_at=datetime.utcnow()
+                played_at=datetime.now(timezone.utc)
             ))
 
         print("Seeding active players...")
@@ -73,7 +73,7 @@ async def seed_data():
                     username=user.username,
                     current_score=random.randint(100, 1000),
                     mode=random.choice(list(GameMode)),
-                    started_at=datetime.utcnow()
+                    started_at=datetime.now(timezone.utc)
                 ))
 
         await session.commit()
