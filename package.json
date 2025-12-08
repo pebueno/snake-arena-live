@@ -1,0 +1,12 @@
+{
+  "name": "snake-arena-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd backend && make install && cd frontend && npm install",
+    "dev": "concurrently \"cd backend && make run\" \"cd frontend && npm run dev\" --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,green\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
