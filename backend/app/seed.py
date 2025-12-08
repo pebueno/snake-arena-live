@@ -2,8 +2,8 @@ import asyncio
 import uuid
 import random
 from datetime import datetime, timezone
-from app.database import AsyncSessionLocal, init_db, engine
-from app.models import User, LeaderboardEntry, ActivePlayer, GameMode
+from .database import AsyncSessionLocal, init_db, engine
+from .models import User, LeaderboardEntry, ActivePlayer, GameMode
 from sqlalchemy import select
 
 async def seed_data():
@@ -84,5 +84,4 @@ async def main():
     # Close the engine
     await engine.dispose()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+
