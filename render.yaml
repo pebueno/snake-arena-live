@@ -1,0 +1,25 @@
+services:
+  # The Unified Web App (Frontend + Backend)
+  - type: web
+    name: snake-arena-live
+    env: docker
+    plan: free
+    region: oregon # or frankfurt, etc.
+    buildCommand: docker build -t snake-app .
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port 8080
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SEED_DB
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: snake-db
+          property: connectionString
+
+databases:
+  # Managed PostgreSQL
+  - name: snake-db
+    plan: free
+    region: oregon
+    ipAllowList: [] # Access only from internal services by default
