@@ -12,6 +12,14 @@ connect_args = {}
 if "sqlite" in DATABASE_URL:
     connect_args = {"check_same_thread": False}
 
+# Fix for Render/Heroku using postgres:// but SQLAlchemy wanting postgresql+asyncpg://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
+# Ensure we use asyncpg if just postgresql:// is passed (optional, depends on driver installed)
+elif DATABASE_URL.startswith("postgresql://") and "asyncpg" not in DATABASE_URL:
+     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+
 engine = create_async_engine(
     DATABASE_URL,
     echo=True, # Set to False in production
