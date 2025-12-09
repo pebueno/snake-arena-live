@@ -1,12 +1,14 @@
 # Snake Arena Live
 
-A real-time multiplayer implementation of the classic Snake game, built with a FastAPI backend and a React/Vite frontend.
+A real-time multiplayer implementation of the classic Snake game.
+**Architecture**: Unified Docker Container (FastAPI Backend serving React Frontend) + PostgreSQL.
 
 ## Project Structure
 
 - **backend/**: FastAPI application (Python 3.12).
 - **frontend/**: React application (Vite, TypeScript, Tailwind CSS).
-- **docker-compose.yml**: Orchestration for the full stack (Frontend, Backend, PostgreSQL).
+- **Dockerfile**: Unified multi-stage build for the entire app.
+- **docker-compose.yml**: Orchestration for the App + Database.
 
 ## Getting Started
 
@@ -16,51 +18,34 @@ A real-time multiplayer implementation of the classic Snake game, built with a F
 
 ### Running with Docker (Recommended)
 
-The easiest way to run the application is using Docker Compose. This will start the frontend, backend, and a PostgreSQL database.
-
-1.  **Build and Start the containers:**
+1.  **Build and Start:**
     ```bash
     docker compose up --build
     ```
+    *Note: This builds the React frontend and the Python backend into a single container.*
 
 2.  **Access the Application:**
-    - **Frontend:** [http://localhost:8080](http://localhost:8080)
-    - **API Documentation:** [http://localhost:8080/docs](http://localhost:8080/docs) (Proxied via Nginx) or [http://localhost:8000/docs](http://localhost:8000/docs) (Direct).
+    - **App:** [http://localhost:8080](http://localhost:8080)
+    - **API Docs:** [http://localhost:8080/docs](http://localhost:8080/docs)
 
 ### Database & Seeding
 
-The application uses PostgreSQL when running in Docker.
+- Uses **PostgreSQL** 15 in Docker.
+- **Auto-Seeding**: The app automatically seeds mock data on startup.
+- **Mock Users**:
+    - `SnakeMaster` / `password`
+    - `PixelPython` / `password`
 
-- **Auto-Seeding:** The database is automatically populated with mock data (users, leaderboard scores) on startup. verify this by checking the logs for "Seeding database..." or by logging in with one of the mock users.
-- **Mock Users:**
-    - **Username:** `SnakeMaster` / **Password:** `password`
-    - **Username:** `PixelPython` / **Password:** `password`
-    - *(See `backend/app/seed.py` for more)*
+### Troubleshooting
 
-### Local Development
-
-If you prefer to run services locally without Docker:
-
-**Backend:**
-```bash
-cd backend
-# Install dependencies
-uv sync
-# Run server (defaults to SQLite)
-uv run uvicorn app.main:app --reload
-```
-*To seed the SQLite DB locally:* `uv run python -m app.seed`
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
-```
+- **Database Errors?** If you changed the schema or see date/time errors, reset the database:
+    ```bash
+    docker compose down -v
+    docker compose up --build
+    ```
 
 ## Features
 
+- **Consolidated Deployment:** Single container for specific version management.
 - **Real-time Gameplay:** (In progress)
 - **Leaderboard:** Compete for high scores.
-- **Authentication:** User signup and login.
-- **Dockerized:** Easy deployment with Nginx reverse proxy.

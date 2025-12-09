@@ -7,33 +7,26 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: snake_arena
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - snake_arena_postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d snake_arena"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  backend:
-    build: ./backend
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
     restart: always
     environment:
-      # Use the docker service name 'db' as hostname
       DATABASE_URL: postgresql+asyncpg://user:password@db/snake_arena
       SEED_DB: "true"
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "8000:8000" # Expose for debugging if needed, though frontend proxies it internaly on port 80? Nginx links via docker network.
-
-  frontend:
-    build: ./frontend
-    restart: always
-    ports:
-      - "8080:80" # Map host 8080 to container 80 (nginx)
-    depends_on:
-      - backend
+      - "8080:8080" 
 
 volumes:
-  postgres_data:
+  snake_arena_postgres_data:

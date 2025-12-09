@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import auth, leaderboard, players
 
@@ -38,6 +39,11 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Include routers (MUST be before SPA catch-all)
+app.include_router(auth.router)
+app.include_router(leaderboard.router)
+app.include_router(players.router)
+
 # Global Exception Handler for debugging 500s
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -51,16 +57,36 @@ async def global_exception_handler(request: Request, exc: Exception):
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"], # Adjust as needed
+    allow_origins=["*"], # Allow all origins for now (or restrict to frontend URL)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(auth.router)
-app.include_router(leaderboard.router)
-app.include_router(players.router)
+# Mount static files
+# We expect the frontend build to be in app/static
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+
+# SPA wrapper
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    # If API route is not matched above, it falls through to here.
+    # Check if file exists in static (e.g. favicon.ico, etc that are in root of dist)
+    if os.path.exists(static_dir):
+        file_path = os.path.join(static_dir, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+    
+    # Otherwise return index.html
+    index_path = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    
+    return JSONResponse({"error": "Frontend not found"}, status_code=404)
+
+
 
 @app.get("/")
 async def root():
