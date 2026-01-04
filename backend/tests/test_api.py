@@ -1,10 +1,10 @@
 from fastapi.testclient import TestClient
 from app.models import GameMode
 
-def test_root(client: TestClient):
-    response = client.get("/")
+def test_health_check(client: TestClient):
+    response = client.get("/api/health")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to Snake Arena API"}
+    assert response.json() == {"message": "Welcome to Snake Arena API", "status": "healthy"}
 
 def test_signup(client: TestClient):
     response = client.post("/auth/signup", json={

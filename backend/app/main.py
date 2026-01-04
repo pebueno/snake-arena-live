@@ -71,9 +71,9 @@ if os.path.exists(static_dir):
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Snake Arena API"}
+@app.get("/api/health")
+async def health_check():
+    return {"message": "Welcome to Snake Arena API", "status": "healthy"}
 
 # SPA wrapper
 @app.get("/{full_path:path}")
