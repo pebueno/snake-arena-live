@@ -67,7 +67,13 @@ app.add_middleware(
 # We expect the frontend build to be in app/static
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
-    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    assets_dir = os.path.join(static_dir, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to Snake Arena API"}
 
 # SPA wrapper
 @app.get("/{full_path:path}")
@@ -85,9 +91,3 @@ async def serve_spa(full_path: str):
         return FileResponse(index_path)
     
     return JSONResponse({"error": "Frontend not found"}, status_code=404)
-
-
-
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Snake Arena API"}
